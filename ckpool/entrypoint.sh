@@ -155,6 +155,9 @@ cat <<EOF > /etc/ckpool/digibyte.json
 EOF
 set -e
 
+# Clean up any stale ckpool PID files from a previous run.
+rm -f /tmp/ckpool/*.pid
+
 # Finally, start ckpool in the foreground:
 echo "Starting ckpool..."
 cd /ckpool/src
