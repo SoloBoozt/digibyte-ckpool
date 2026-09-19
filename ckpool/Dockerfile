@@ -1,9 +1,9 @@
 # Use an Ubuntu base image
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Let’s define some build arguments
 ARG TARGETARCH
-ARG DGB_VERSION=8.22.1
+ARG DGB_VERSION=9.26.5
 ENV FNM_PATH="/root/.local/share/fnm"
 
 # Install necessary dependencies
@@ -14,9 +14,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 # Download and install DigiByte Core
 # We pick x86_64 or arm64 archives depending on $TARGETARCH
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-v${DGB_VERSION}-x86_64-linux-gnu.tar.gz; \
+      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-${DGB_VERSION}-x86_64-linux-gnu.tar.gz; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-v${DGB_VERSION}-aarch64-linux-gnu.tar.gz; \
+      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-${DGB_VERSION}-aarch64-linux-gnu.tar.gz; \
     else \
       echo "Unsupported or unknown architecture: $TARGETARCH"; \
       exit 1; \
@@ -44,7 +44,7 @@ RUN chmod +x /entrypoint.sh
 COPY healthcheck.sh /healthcheck.sh
 RUN chmod +x /healthcheck.sh
 
-# Expose DigiByte ports (p2p=8433, RPC=8432) and example ckpool port (3333)
-EXPOSE 8433 8432 3333 80
+# Expose DigiByte ports (p2p=12024, RPC=14022) and example ckpool port (3333)
+EXPOSE 12024 14022 3333 80
 
 ENTRYPOINT ["/entrypoint.sh"]
