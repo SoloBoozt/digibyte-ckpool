@@ -23,7 +23,7 @@ services:
       MAXCONNECTIONS: "300"
       DISABLEWALLET: "0"
       RPCALLOWIP: "0.0.0.0/0"
-      PORT: "8433"
+      PORT: "12024"
       RPCPORT: "14022"         # <- your working RPC port
       RPCBIND: "0.0.0.0"
       RPCUSER: "rpcuser"
@@ -55,7 +55,7 @@ services:
       - ./ckpool/data/logs:/logs
 
     ports:
-      - "8433:8433"    # p2p
+      - "12024:12024"    # p2p
       - "14022:14022"  # rpc (new port)
       - "3333:3333"    # ckpool stratum
       - "4028:4028"    # ckpool API
