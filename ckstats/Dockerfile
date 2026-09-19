@@ -1,9 +1,9 @@
 # Use an Ubuntu base image
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Let’s define some build arguments
 ARG TARGETARCH
-ARG DGB_VERSION=8.22.1
+ARG DGB_VERSION=9.26.5
 
 ENV FNM_PATH="/root/.local/share/fnm"
 
@@ -41,16 +41,16 @@ RUN ls -la
 RUN export PATH="$FNM_PATH:$PATH" && \
     eval "`fnm env`" && \
     # Download and install pnpm:
-    corepack prepare pnpm@latest --activate && \
+    corepack prepare pnpm@10 --activate && \
     corepack enable pnpm && \
     pnpm install
 
 # Download and install DigiByte Core
 # We pick x86_64 or arm64 archives depending on $TARGETARCH
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-v${DGB_VERSION}-x86_64-linux-gnu.tar.gz; \
+      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-${DGB_VERSION}-x86_64-linux-gnu.tar.gz; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-v${DGB_VERSION}-aarch64-linux-gnu.tar.gz; \
+      curl -L -o digibyte.tar.gz https://github.com/DigiByte-Core/digibyte/releases/download/v${DGB_VERSION}/digibyte-${DGB_VERSION}-aarch64-linux-gnu.tar.gz; \
     else \
       echo "Unsupported or unknown architecture: $TARGETARCH"; \
       exit 1; \
